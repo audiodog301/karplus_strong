@@ -10,20 +10,20 @@ use baseplug::{
 };
 
 struct Delay {
-    buffer: [f32; 2000],
+    buffer: [f32; 88200],
     time: u32
 }
 
 impl Delay {
     pub fn new(time: u32) -> Self {
         Self {
-            buffer: [0.0; 2000],
+            buffer: [0.0; 88200],
             time: time
         }
     }    
     
     fn process(&mut self, input: f32) -> f32 {
-        for counter in 0..self.buffer.len() {
+        for counter in 0..(self.buffer.len() - 1) {
             self.buffer[counter + 1] = self.buffer[counter];    
         }
 
@@ -37,7 +37,7 @@ impl Delay {
 baseplug::model! {
     #[derive(Debug, Serialize, Deserialize)]
     struct FilterModel {
-        #[model(min = 0.0, max = 2000.0)]
+        #[model(min = 0.0, max = 88200.0)]
         #[parameter(name = "time")]
         time: f32
     }
@@ -80,6 +80,11 @@ impl Plugin for Filter {
         let output = &mut ctx.outputs[0].buffers;
         
         for i in 0..ctx.nframes { 
+            if model.time.is_smoothing() {
+                self.delay_left.time = model.time[i] as u32;
+                self.delay_right.time = model.time[i] as u32;
+            }
+            
             output[0][i] = self.delay_left.process(input[0][i]);
             output[1][i] = self.delay_right.process(input[1][i]);
         }

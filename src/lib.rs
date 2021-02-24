@@ -38,15 +38,15 @@ baseplug::model! {
     #[derive(Debug, Serialize, Deserialize)]
     struct FilterModel {
         #[model(min = 0.0, max = 2000.0)]
-        #[parameter(name = "amount")]
-        amount: f32
+        #[parameter(name = "time")]
+        time: f32
     }
 }
 
 impl Default for FilterModel {
     fn default() -> Self {
         Self {
-            amount: 0.0
+            time: 0.0
         }
     }
 }
@@ -57,8 +57,8 @@ struct Filter {
 }
 
 impl Plugin for Filter {
-    const NAME: &'static str = "Baby\'s First Delay Plugin";
-    const PRODUCT: &'static str = "Baby\'s First Delay Plugin";
+    const NAME: &'static str = "DELAY LMAOOO";
+    const PRODUCT: &'static str = "DELAY LMAOOO";
     const VENDOR: &'static str = "audiodog301";
 
     const INPUT_CHANNELS: usize = 2;

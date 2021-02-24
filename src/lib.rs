@@ -10,14 +10,14 @@ use baseplug::{
 };
 
 struct Delay {
-    buffer: [f32; 88200],
+    buffer: Vec<f32>,
     time: u32
 }
 
 impl Delay {
     pub fn new(time: u32) -> Self {
         Self {
-            buffer: [0.0; 88200],
+            buffer: vec![0.0; 88200],
             time: time
         }
     }    
